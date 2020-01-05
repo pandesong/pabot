@@ -44,6 +44,10 @@
 --verbose     
   来自并行执行的更多输出
 
+--spilt
+  指定需要并行分割执行的测试套
+
+
 --testlevelsplit          
   在测试级别而不是默认套件级别上拆分执行。
   如果.pabotsuitenames包含测试和套件，那么这个
