@@ -95,8 +95,8 @@ from multiprocessing.pool import ThreadPool
 from robot.run import USAGE
 from robot.utils import ArgumentParser, SYSTEM_ENCODING, is_unicode, PY2
 import signal
-import   pabotlib
-from result_merger import merge
+from . import   pabotlib
+from .result_merger import merge
 
 try:
     import queue # type: ignore
@@ -399,6 +399,7 @@ def _parse_args(args):
                   'processes': _processes_count(),
                   'spilt':None,
                   'argumentfiles': []}
+    mutil=[]
     while args and (args[0] in ['--' + param for param in ['command',
                                                            'processes',
                                                            'verbose',
@@ -454,7 +455,8 @@ def _parse_args(args):
             args = args[2:]
             continue
         if args[0] == '--spilt':
-            pabot_args['spilt'] = args[1]
+            mutil.append(args[1])
+            pabot_args['spilt'] = mutil
             args = args[2:]
             continue
         match = ARGSMATCHER.match(args[0])
@@ -1500,7 +1502,7 @@ def _create_execution_items(suite_names, datasources, outs_dir, options, opts_fo
             for suite in suite_group
             for argfile in pabot_args['argumentfiles'] or [("", None)]]
         for testsuite in items:
-            for arg in pabot_args['spilt'].split('|'):
+            for arg in pabot_args['spilt']:
                 if(testsuite.execution_item.name.find(arg)>=0):
                     testcases=_get_suite_testcases(testsuite.datasources[0],testsuite.execution_item.name)
                     for testcase in testcases:
