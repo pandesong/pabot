@@ -1,0 +1,13 @@
+tmp
+.mypy_cache
+pabot_results
+.pabotsuitenames
+build
+dist
+.DS_Store
+.vscode
+*.egg-info
+*.pyc
+.idea
+*.html
+*.xml
