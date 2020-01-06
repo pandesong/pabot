@@ -1458,20 +1458,42 @@ def _get_suite_root_name(suite_names):
 
 def _get_suite_testcases(suitedir,name):
     name = name[str(name).rfind('.') + 1:len(name)]+".robot"
+    tag={}
+    testcases={}
+    tmp=[]
     for robot_test in _get_all_dir_files(suitedir):
         testcase_file_name=robot_test[str(robot_test).rfind('\\')+1:len(robot_test)]
         if testcase_file_name.lower().find(str(name).lower())>=0 :
             fa=open(robot_test)
             start=False
             name=[]
+            testcase_name = None
             for line in fa.readlines():
                 if start:
                     if line[0]!=' ' and line[0]!='\n' and line[0]!='\t':
-                        name.append(line[0:len(line)-1])
+                        testcase_name = line.strip()
+                        name.append(testcase_name)
+                        testcases[testcase_name]=[]
+                        tmp = []
+                    else:
+                        testcases[testcase_name].append(line.strip())
                 if line.find("*** Test Cases ***")>=0:
                     start=True
-
-            return name
+            for k,v in testcases.iteritems():
+                line_flag = False
+                for line in v:
+                    if line.find("[Tags]")>=0:
+                        line=line.replace("[Tags]","")
+                        line_flag = True
+                        while True:
+                            if line.find(" ")>=0 or line.find("\t")>=0:
+                                line=line.replace(" ","")
+                                line=line.replace("\t","")
+                                tag[k]=line
+                            else:break
+                if not line_flag:  tag[k]=None
+            print(name,tag)
+            return name,tag
 
 class QueueItem(object):
     def __init__(self, datasources, outs_dir, options, execution_item, command, verbose, argfile):
@@ -1504,15 +1526,26 @@ def _create_execution_items(suite_names, datasources, outs_dir, options, opts_fo
         for testsuite in items:
             for arg in pabot_args['spilt']:
                 if(testsuite.execution_item.name.find(arg)>=0):
-                    testcases=_get_suite_testcases(testsuite.datasources[0],testsuite.execution_item.name)
-                    for testcase in testcases:
-                        test_suite = copy.deepcopy(testsuite)
-                        test_suite.options["test"]=[testcase]
-                        test_suite.options["suite"]=[]
-                        test_suite.execution_item.type='test'
-                        test_suite.execution_item.name=testcase
-                        items_tmp.append(test_suite)
-            items.remove(testsuite)
+                    testcases,tags=_get_suite_testcases(testsuite.datasources[0],testsuite.execution_item.name)
+                    for i in range(len(testcases)):
+                        testcase=testcases[i]
+                        tag=tags.get(testcase)
+                        if len(testsuite.options["include"]):
+                            if str(testsuite.options["include"][0]).find(str(tag))>=0 and tag!=None:
+                                test_suite = copy.deepcopy(testsuite)
+                                test_suite.options["test"]=[testcase]
+                                test_suite.options["suite"]=[]
+                                test_suite.execution_item.type='test'
+                                test_suite.execution_item.name=test_suite.execution_item.name+"."+testcase
+                                items_tmp.append(test_suite)
+                        else:
+                            test_suite = copy.deepcopy(testsuite)
+                            test_suite.options["test"] = [testcase]
+                            test_suite.options["suite"] = []
+                            test_suite.execution_item.type = 'test'
+                            test_suite.execution_item.name = test_suite.execution_item.name + "." + testcase
+                            items_tmp.append(test_suite)
+                    items.remove(testsuite)
         _NUMBER_OF_ITEMS_TO_BE_EXECUTED += len(items+items_tmp)
         all_items.append(items+items_tmp)
     with _COMPLETED_LOCK:
