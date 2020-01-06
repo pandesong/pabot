@@ -1460,7 +1460,6 @@ def _get_suite_testcases(suitedir,name):
     name = name[str(name).rfind('.') + 1:len(name)]+".robot"
     tag={}
     testcases={}
-    tmp=[]
     for robot_test in _get_all_dir_files(suitedir):
         testcase_file_name=robot_test[str(robot_test).rfind('\\')+1:len(robot_test)]
         if testcase_file_name.lower().find(str(name).lower())>=0 :
@@ -1474,7 +1473,6 @@ def _get_suite_testcases(suitedir,name):
                         testcase_name = line.strip()
                         name.append(testcase_name)
                         testcases[testcase_name]=[]
-                        tmp = []
                     else:
                         testcases[testcase_name].append(line.strip())
                 if line.find("*** Test Cases ***")>=0:
@@ -1492,7 +1490,6 @@ def _get_suite_testcases(suitedir,name):
                                 tag[k]=line
                             else:break
                 if not line_flag:  tag[k]=None
-            print(name,tag)
             return name,tag
 
 class QueueItem(object):
@@ -1527,8 +1524,7 @@ def _create_execution_items(suite_names, datasources, outs_dir, options, opts_fo
             for arg in pabot_args['spilt']:
                 if(testsuite.execution_item.name.find(arg)>=0):
                     testcases,tags=_get_suite_testcases(testsuite.datasources[0],testsuite.execution_item.name)
-                    for i in range(len(testcases)):
-                        testcase=testcases[i]
+                    for testcase in testcases:
                         tag=tags.get(testcase)
                         if len(testsuite.options["include"]):
                             if str(testsuite.options["include"][0]).find(str(tag))>=0 and tag!=None:
