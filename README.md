@@ -1,6 +1,5 @@
 # Pabot
 
-[Русская версия](README_ru.md)
 [中文版](README_zh.md)
 
 [![Version](https://img.shields.io/pypi/v/robotframework-pabot.svg)](https://pypi.python.org/pypi/robotframework-pabot)
@@ -69,6 +68,9 @@ Supports all [Robot Framework command line options](https://robotframework.org/r
 --command [ACTUAL COMMANDS TO START ROBOT EXECUTOR] --end-command    
   RF script for situations where robot is not used directly
 
+--spilt
+  Specifies the test suite that needs to be executed in parallel
+  
 --processes   [NUMBER OF PROCESSES]          
   How many parallel executors to use (default max of 2 and cpu count)
 
