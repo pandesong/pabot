@@ -1,6 +1,7 @@
 # Pabot
 
 [Robot Framework](http://www.robotframework.org)测试的并行执行程序。 使用Pabot，您可以将一个执行分成多个并节省测试执行时间。
+
 [Pabot](https://github.com/mkorpela/pabot.git) 在此项目基础上拉取的一个分支进行修改，可以指定测试套进行用例分割
 
 ## 安装
