@@ -1,30 +1,14 @@
 # Pabot
 
-<img src="https://raw.githubusercontent.com/mkorpela/pabot/master/pabot.png" width="100">
-
 [Robot Framework](http://www.robotframework.org)测试的并行执行程序。 使用Pabot，您可以将一个执行分成多个并节省测试执行时间。
+[Pabot](https://github.com/mkorpela/pabot.git) 在此项目基础上拉取的一个分支进行修改，可以指定测试套进行用例分割
 
 ## 安装
 
-来自PyPi：
-
-     pip install -U robotframework-pabot
-
-或克隆此存储库并运行：
+克隆此存储库并运行：
 
      setup.py  install
 
-## 你应该知道的事情
-
-   - Pabot默认会从套件文件中拆分测试执行。 对于测试级别拆分使用```--testlevelsplit```标志。
-   - 在一般情况下，当并行执行时，您不能指望没有设计为平行执行的测试，以便开箱即用。 例如，如果测试操作或使用相同的数据，您可能会遇到麻烦（一个测试套件登录到系统，而另一个测试套件记录相同的会话等）。 PabotLib可以帮助您解决这些并发问题。
-
-## 为项目做贡献
-
-有几种方法可以帮助您改进此工具：
-
-   - 向[问题跟踪器](https://github.com/mkorpela/pabot/issues)报告问题或改进想法
-   - 通过编程和提出拉取请求来做出贡献（最简单的方法是处理来自问题跟踪器的问题）
 
 ## 命令行选项
 
