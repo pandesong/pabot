@@ -72,7 +72,8 @@
      pabot --processes 10 tests
      pabot --pabotlibhost 192.168.1.123 --pabotlibport 8271 --processes 10 tests
      pabot --pabotlib --pabotlibhost 192.168.1.111 --pabotlibport 8272 --processes 10 tests
-
+     pabot --split  suites1    --processes 5  --verbose   --suite suites1  --suite suites1    F:\UItest
+     
 ### PabotLib
 
 pabot.PabotLib提供的关键字有助于执行程序进程之间的通信和数据共享。
