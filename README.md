@@ -47,7 +47,7 @@
   
   这样就可以与多个Robot Framework实例共享资源。
 
---pabotlibport   [港口]          
+--pabotlibport   [端口]          
   PabotLib远程服务器的端口号（默认为8270）
   有关更多信息，请参阅--pabotlibhost
 
