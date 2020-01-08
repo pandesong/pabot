@@ -397,7 +397,7 @@ def _parse_args(args):
                   'pabotlibhost': '127.0.0.1',
                   'pabotlibport': 8270,
                   'processes': _processes_count(),
-                  'spilt':None,
+                  'spilt':[],
                   'argumentfiles': []}
     mutil=[]
     while args and (args[0] in ['--' + param for param in ['command',
